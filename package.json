@@ -1,0 +1,58 @@
+{
+	"name": "nodejs-server-template",
+	"version": "0.0.0",
+	"private": true,
+	"description": "nodejs-server-template",
+	"type": "module",
+	"main": "server.js",
+	"scripts": {
+		"ava": "c8 ava -vs",
+		"dev": "nodemon server.js",
+		"lint": "eslint . --cache",
+		"start": "cross-env NODE_ENV=production node server.js",
+		"test": "npm run lint && npm run ava"
+	},
+	"nodemonConfig": {
+		"env": {
+			"NODE_ENV": "development",
+			"NODE_OPTIONS": "--trace-warnings"
+		},
+		"watch": [
+			"src",
+			"server.js"
+		]
+	},
+	"prettier": "@iamnapo/prettier-config",
+	"eslintConfig": {
+		"extends": "iamnapo"
+	},
+	"ava": {
+		"timeout": "1m",
+		"verbose": true
+	},
+	"dependencies": {
+		"@sentry/node": "^6.2.3",
+		"chalk": "^4.1.0",
+		"compression": "^1.7.4",
+		"cookie-parser": "^1.4.5",
+		"cors": "^2.8.5",
+		"cross-env": "^7.0.3",
+		"dotenv": "^8.2.0",
+		"express": "^5.0.0-alpha.8",
+		"helmet": "^4.4.1",
+		"morgan": "^1.10.0"
+	},
+	"devDependencies": {
+		"@iamnapo/prettier-config": "^1.0.2",
+		"ava": "^3.15.0",
+		"c8": "^7.6.0",
+		"eslint": "^7.23.0",
+		"eslint-config-iamnapo": "^13.0.0",
+		"eslint-plugin-import": "^2.22.1",
+		"eslint-plugin-unicorn": "^29.0.0",
+		"nodemon": "^2.0.7"
+	},
+	"engines": {
+		"node": ">=14"
+	}
+}
