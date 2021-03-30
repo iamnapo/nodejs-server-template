@@ -15,11 +15,11 @@
 		"ava",
 		"dotenv"
 	],
-	"homepage": "https://github.com/iamnapo/odejs-server-template#readme",
+	"homepage": "https://github.com/iamnapo/nodejs-server-template#readme",
 	"bugs": {
-		"url": "https://github.com/iamnapo/odejs-server-template/issues"
+		"url": "https://github.com/iamnapo/nodejs-server-template/issues"
 	},
-	"repository": "github:iamnapo/odejs-server-template",
+	"repository": "github:iamnapo/nodejs-server-template",
 	"license": "MIT",
 	"author": {
 		"name": "Napoleon-Christos Oikonomou",
