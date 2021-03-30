@@ -2,11 +2,34 @@
 	"name": "nodejs-server-template",
 	"version": "0.0.0",
 	"private": true,
-	"description": "nodejs-server-template",
+	"description": "Not-so-opinionated server template, with all the important stuff",
+	"keywords": [
+		"nodejs",
+		"template",
+		"nodejs-template",
+		"iamnapo",
+		"eslint",
+		"express",
+		"sentry",
+		"nodemon",
+		"ava",
+		"dotenv"
+	],
+	"homepage": "https://github.com/iamnapo/odejs-server-template#readme",
+	"bugs": {
+		"url": "https://github.com/iamnapo/odejs-server-template/issues"
+	},
+	"repository": "github:iamnapo/odejs-server-template",
+	"license": "MIT",
+	"author": {
+		"name": "Napoleon-Christos Oikonomou",
+		"email": "Napoleonoikon@gmail.com",
+		"url": "https://iamnapo.me"
+	},
 	"type": "module",
-	"main": "server.js",
+	"exports": "./server.js",
 	"scripts": {
-		"ava": "c8 ava -vs",
+		"ava": "c8 ava",
 		"dev": "nodemon server.js",
 		"lint": "eslint . --cache",
 		"start": "cross-env NODE_ENV=production node server.js",
@@ -27,7 +50,6 @@
 		"extends": "iamnapo"
 	},
 	"ava": {
-		"timeout": "1m",
 		"verbose": true
 	},
 	"dependencies": {
@@ -46,7 +68,7 @@
 	"devDependencies": {
 		"@iamnapo/prettier-config": "^1.0.2",
 		"ava": "^3.15.0",
-		"c8": "^7.6.0",
+		"c8": "^7.7.0",
 		"eslint": "^7.23.0",
 		"eslint-config-iamnapo": "^13.0.0",
 		"eslint-plugin-import": "^2.22.1",
