@@ -2,7 +2,7 @@
 
 > [Not-so-much] opinionated server template, with all the important stuff<sup>1</sup>
 
-<sup>1</sup>: [express](http://expressjs.com/), [ava](https://avajs.dev/), [eslint](https://eslint.org/), [Sentry](https://sentry.io/welcome/), [nodemon](https://nodemon.io/), [dotenv](https://github.com/motdotla/dotenv), code coverage and other bits and bobs.
+<sup>1</sup>: [fastify](https://www.fastify.io/), [ava](https://avajs.dev/), [eslint](https://eslint.org/), [Sentry](https://sentry.io/welcome/), [nodemon](https://nodemon.io/), [dotenv](https://github.com/motdotla/dotenv), code coverage and other bits and bobs.
 
 [![build](https://img.shields.io/github/workflow/status/iamnapo/nodejs-server-template/ci?style=for-the-badge&logo=github&label=)](https://github.com/iamnapo/nodejs-server-template/actions) [![style](https://img.shields.io/badge/code%20style-iamnapo-cyan.svg?style=for-the-badge)](https://iamnapo.me)
 

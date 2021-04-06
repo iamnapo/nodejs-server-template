@@ -1,8 +1,7 @@
-import express from "express";
-
 import publicRoutes from "./public.js";
 
-const router = express.Router({ mergeParams: true });
-router.use("/", publicRoutes);
+export default (fastify, opts, done) => {
+	fastify.register(publicRoutes, { prefix: "/" });
 
-export default router;
+	done();
+};

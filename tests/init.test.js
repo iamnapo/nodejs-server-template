@@ -1,16 +1,19 @@
 import "dotenv/config.js";
-import http from "http";
 
 import test from "ava";
 import got from "got";
-import listen from "test-listen";
 
-import app from "../server.js";
+import app from "../src/app.js";
 
 test.before(async (t) => {
-	t.context.server = http.createServer(app);
-	const prefixUrl = await listen(t.context.server);
-	t.context.got = got.extend({ throwHttpErrors: false, responseType: "json", prefixUrl });
+	t.context.server = app();
+	await t.context.server.listen();
+	const { address, port } = t.context.server.server.address();
+	t.context.got = got.extend({
+		throwHttpErrors: false,
+		responseType: "json",
+		prefixUrl: `http://${address}:${port}`,
+	});
 });
 
 test.after.always((t) => t.context.server.close());

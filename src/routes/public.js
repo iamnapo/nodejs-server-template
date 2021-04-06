@@ -1,7 +1,5 @@
-import express from "express";
+export default (fastify, opts, done) => {
+	fastify.get("/ping/", (req, reply) => reply.send({ message: "pong" }));
 
-const router = express.Router({ mergeParams: true });
-
-router.get("/ping/", (req, res) => res.json({ message: "pong" }));
-
-export default router;
+	done();
+};
