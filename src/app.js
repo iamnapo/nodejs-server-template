@@ -15,7 +15,7 @@ Sentry.init({ enabled: process.env.NODE_ENV === "production" });
 export default (opts = {}) => {
 	const app = fastify({ ...opts, ignoreTrailingSlash: true });
 
-	app.register(helmet);
+	app.register(helmet, { contentSecurityPolicy: process.env.NODE_ENV === "production" ? undefined : false });
 	app.register(cookie);
 	app.register(cors, { credentials: true, origin: true });
 	app.register(compress);
