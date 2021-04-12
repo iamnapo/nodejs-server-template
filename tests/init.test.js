@@ -29,3 +29,13 @@ test("GET /whatever/ returns 404", async (t) => {
 	t.is(body.message, "Page not found 😞");
 	t.is(statusCode, 404);
 });
+
+test("POST /graphql/ returns correct response and status code", async (t) => {
+	const { body, statusCode } = await t.context.got.post("graphql", { json: { query: `query {
+		ping {
+			message
+		}
+	}` } });
+	t.is(body.data.ping.message, "pong");
+	t.is(statusCode, 200);
+});

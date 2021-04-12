@@ -4,6 +4,6 @@ export default `
 	}
 
 	type Query {
-		ping: Ping
+		ping: Ping!
 	}
 `;
