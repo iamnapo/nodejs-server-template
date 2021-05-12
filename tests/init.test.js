@@ -1,4 +1,4 @@
-import "dotenv/config.js";
+import "dotenv/config";
 
 import test from "ava";
 import got from "got";
