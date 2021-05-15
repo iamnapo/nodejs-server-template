@@ -1,6 +1,3 @@
-import path from "node:path";
-import { fileURLToPath } from "node:url";
-
 import plugin from "fastify-plugin";
 
 import errorHandler from "./error-handler.js";
@@ -9,7 +6,7 @@ import graphql from "./graphql.js";
 
 export default plugin((fastify, opts, done) => {
 	fastify.register(errorHandler);
-	fastify.register(serveFavicon, { path: path.join(path.dirname(fileURLToPath(import.meta.url)), "..", "assets", "images", "favicon.ico") });
+	fastify.register(serveFavicon, { path: new URL("../assets/images/favicon.ico", import.meta.url) });
 	fastify.register(graphql);
 
 	done();
