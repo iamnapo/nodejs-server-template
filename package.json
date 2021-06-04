@@ -54,7 +54,7 @@
 		"verbose": true
 	},
 	"dependencies": {
-		"@sentry/node": "^6.5.0",
+		"@sentry/node": "^6.5.1",
 		"cross-env": "^7.0.3",
 		"dotenv": "^10.0.0",
 		"fastify": "^3.17.0",
@@ -73,7 +73,7 @@
 		"eslint": "^7.27.0",
 		"eslint-config-iamnapo": "^15.0.0",
 		"eslint-plugin-import": "^2.23.4",
-		"eslint-plugin-unicorn": "^32.0.1",
+		"eslint-plugin-unicorn": "^33.0.1",
 		"got": "^11.8.2",
 		"nodemon": "^2.0.7"
 	},

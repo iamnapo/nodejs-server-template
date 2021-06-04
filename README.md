@@ -20,23 +20,23 @@
 ## Install
 
 ```sh
-$ npm i
+npm i
 ```
 
 ## Usage
 
 ```sh
-$ npm start
+npm start
 ```
 
 ## Run tests
 
 ```sh
-$ npm test
+npm test
 ```
 
 ## Development
 
 ```sh
-$ npm run dev
+npm run dev
 ```
