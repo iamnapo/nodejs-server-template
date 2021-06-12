@@ -54,7 +54,7 @@
 		"verbose": true
 	},
 	"dependencies": {
-		"@sentry/node": "^6.5.1",
+		"@sentry/node": "^6.6.0",
 		"cross-env": "^7.0.3",
 		"dotenv": "^10.0.0",
 		"fastify": "^3.17.0",
@@ -70,7 +70,7 @@
 		"@iamnapo/prettier-config": "^1.0.3",
 		"ava": "^3.15.0",
 		"c8": "^7.7.2",
-		"eslint": "^7.27.0",
+		"eslint": "^7.28.0",
 		"eslint-config-iamnapo": "^15.0.0",
 		"eslint-plugin-import": "^2.23.4",
 		"eslint-plugin-unicorn": "^33.0.1",
