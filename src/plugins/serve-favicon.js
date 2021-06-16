@@ -10,7 +10,7 @@ export default plugin((fastify, opts, done) => {
 		method: ["GET", "HEAD"],
 		url: "/favicon.ico",
 		handler: async (req, reply) => {
-			iconBuf = iconBuf || await readFile(opts.path);
+			iconBuf ||= await readFile(opts.path);
 
 			return reply
 				.headers({

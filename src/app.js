@@ -22,7 +22,6 @@ export default (opts = {}) => {
 
 	app.register(plugins);
 	app.register(routes, { prefix: "/" });
-	app.all("/*", (req, reply) => reply.code(404).send({ message: "Page not found 😞" }));
 
 	return app;
 };
