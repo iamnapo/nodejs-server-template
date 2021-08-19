@@ -54,27 +54,27 @@
 		"verbose": true
 	},
 	"dependencies": {
-		"@sentry/node": "^6.9.0",
+		"@sentry/node": "^6.11.0",
 		"cross-env": "^7.0.3",
 		"dotenv": "^10.0.0",
-		"fastify": "^3.19.1",
+		"fastify": "^3.20.2",
 		"fastify-compress": "^3.6.0",
 		"fastify-cookie": "^5.3.1",
-		"fastify-cors": "^6.0.1",
+		"fastify-cors": "^6.0.2",
 		"fastify-helmet": "^5.3.2",
 		"fastify-plugin": "^3.0.0",
-		"mercurius": "^8.0.0",
-		"pino-pretty": "^5.1.1"
+		"mercurius": "^8.1.2",
+		"pino-pretty": "^5.1.3"
 	},
 	"devDependencies": {
 		"@iamnapo/prettier-config": "^1.0.3",
 		"ava": "^3.15.0",
-		"c8": "^7.7.3",
-		"eslint": "^7.30.0",
+		"c8": "^7.8.0",
+		"eslint": "^7.32.0",
 		"eslint-config-iamnapo": "^16.1.0",
-		"eslint-plugin-import": "^2.23.4",
-		"eslint-plugin-unicorn": "^34.0.1",
-		"file-type": "^16.5.1",
+		"eslint-plugin-import": "^2.24.0",
+		"eslint-plugin-unicorn": "^35.0.0",
+		"file-type": "^16.5.3",
 		"got": "^11.8.2",
 		"nodemon": "^2.0.12"
 	},
