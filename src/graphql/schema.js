@@ -1,4 +1,4 @@
-export default `#graphql
+const schema = `#graphql
 	type Ping {
 		message: String!
 	}
@@ -7,3 +7,5 @@ export default `#graphql
 		ping: Ping!
 	}
 `;
+
+export default schema;

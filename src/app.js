@@ -1,6 +1,6 @@
 import "dotenv/config";
 
-import fastify from "fastify";
+import Fastify from "fastify";
 import compress from "fastify-compress";
 import cors from "fastify-cors";
 import Sentry from "@sentry/node";
@@ -12,16 +12,18 @@ import plugins from "./plugins/index.js";
 
 Sentry.init({ enabled: process.env.NODE_ENV === "production" });
 
-export default (opts = {}) => {
-	const app = fastify({ ...opts, ignoreTrailingSlash: true });
+const app = (opts = {}) => {
+	const fastify = Fastify({ ...opts, ignoreTrailingSlash: true });
 
-	app.register(helmet, { contentSecurityPolicy: process.env.NODE_ENV === "production" ? undefined : false });
-	app.register(cookie);
-	app.register(cors, { credentials: true, origin: true });
-	app.register(compress);
+	fastify.register(helmet, { contentSecurityPolicy: process.env.NODE_ENV === "production" ? undefined : false });
+	fastify.register(cookie);
+	fastify.register(cors, { credentials: true, origin: true });
+	fastify.register(compress);
 
-	app.register(plugins);
-	app.register(routes, { prefix: "/" });
+	fastify.register(plugins);
+	fastify.register(routes, { prefix: "/" });
 
-	return app;
+	return fastify;
 };
+
+export default app;
