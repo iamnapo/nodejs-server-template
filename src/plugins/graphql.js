@@ -3,7 +3,7 @@ import plugin from "fastify-plugin";
 
 import { schema, resolvers } from "../graphql/index.js";
 
-export default plugin((fastify, opts = {}, done) => {
+export default plugin((fastify, opts, done) => {
 	fastify.register(mercurius, {
 		schema,
 		resolvers,
