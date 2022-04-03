@@ -2,7 +2,7 @@ import "dotenv/config";
 
 import test from "ava";
 import got from "got";
-import fileType from "file-type";
+import { fileTypeFromBuffer } from "file-type";
 
 import app from "../src/app.js";
 
@@ -21,7 +21,7 @@ test.after.always((t) => t.context.server.close());
 
 test("GET /favicon.ico returns correct response and status code", async (t) => {
 	const { body, statusCode } = await t.context.got("favicon.ico", { responseType: "buffer" });
-	const { ext } = await fileType.fromBuffer(body);
+	const { ext } = await fileTypeFromBuffer(body);
 	t.is(ext, "ico");
 	t.is(statusCode, 200);
 });
