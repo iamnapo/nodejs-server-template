@@ -1,11 +1,11 @@
 import "dotenv/config";
 
 import Fastify from "fastify";
-import compress from "fastify-compress";
-import cors from "fastify-cors";
+import compress from "@fastify/compress";
+import cors from "@fastify/cors";
 import Sentry from "@sentry/node";
-import helmet from "fastify-helmet";
-import cookie from "fastify-cookie";
+import helmet from "@fastify/helmet";
+import cookie from "@fastify/cookie";
 
 import routes from "./routes/index.js";
 import plugins from "./plugins/index.js";

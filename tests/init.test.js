@@ -8,7 +8,7 @@ import app from "../src/app.js";
 
 test.before(async (t) => {
 	t.context.server = app();
-	await t.context.server.listen();
+	await t.context.server.listen({ host: "127.0.0.1", port: 0 });
 	const { address, port } = t.context.server.server.address();
 	t.context.got = got.extend({
 		throwHttpErrors: false,
@@ -17,7 +17,9 @@ test.before(async (t) => {
 	});
 });
 
-test.after.always((t) => t.context.server.close());
+test.after.always((t) => {
+	t.context.server.close();
+});
 
 test("GET /favicon.ico returns correct response and status code", async (t) => {
 	const { body, statusCode } = await t.context.got("favicon.ico", { responseType: "buffer" });
