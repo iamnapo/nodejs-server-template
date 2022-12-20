@@ -4,7 +4,7 @@
 
 <sup>1</sup>: [fastify](https://www.fastify.io/), [ava](https://avajs.dev/), [graphql](https://graphql.org/), [eslint](https://eslint.org/), [Sentry](https://sentry.io/welcome/), [nodemon](https://nodemon.io/), [dotenv](https://github.com/motdotla/dotenv), code coverage and other bits and bobs.
 
-[![build](https://img.shields.io/github/workflow/status/iamnapo/nodejs-server-template/ci?style=for-the-badge&logo=github&label=)](https://github.com/iamnapo/nodejs-server-template/actions) [![style](https://img.shields.io/badge/code%20style-iamnapo-cyan.svg?style=for-the-badge)](https://iamnapo.me)
+[![build](https://badges.iamnapo.me/ci/iamnapo/nodejs-server-template)](https://github.com/iamnapo/nodejs-server-template/actions) [![style](https://badges.iamnapo.me/style)](https://iamnapo.me)
 
 ## Use this template
 
@@ -15,7 +15,7 @@
 
 ## Prerequisites
 
-- node >= 14
+- node >= 18
 
 ## Install
 
