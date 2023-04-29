@@ -1,0 +1,7 @@
+{
+	"extends": "@iamnapo/tsconfig",
+	"compilerOptions": {
+		"outDir": "dist",
+	},
+	"include": ["source", "tests", "global.d.ts"],
+}

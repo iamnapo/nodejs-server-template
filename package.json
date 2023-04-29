@@ -5,6 +5,7 @@
 	"description": "Not-so-opinionated server template, with all the important stuff",
 	"keywords": [
 		"nodejs",
+		"typescript",
 		"template",
 		"nodejs-template",
 		"iamnapo",
@@ -28,13 +29,13 @@
 		"url": "https://iamnapo.me"
 	},
 	"type": "module",
-	"exports": "./server.js",
+	"exports": "./dist/source/server.js",
 	"scripts": {
-		"ava": "c8 ava",
-		"dev": "nodemon server.js",
-		"lint": "eslint . --ext .js --cache",
-		"start": "cross-env NODE_ENV=production node server.js",
-		"test": "npm run lint && npm run ava"
+		"build": "tsc && cpy source '!**/*.ts' dist",
+		"dev": "tsc --watch & nodemon dist/source/server.js",
+		"lint": "eslint . --ext .ts --cache",
+		"start": "NODE_ENV=production node dist/source/server.js",
+		"test": "npm run lint && npm run build && c8 ava"
 	},
 	"nodemonConfig": {
 		"env": {
@@ -42,52 +43,52 @@
 			"NODE_OPTIONS": "--trace-warnings"
 		},
 		"watch": [
-			"src",
-			"server.js"
+			"dist"
 		]
 	},
 	"prettier": "@iamnapo/prettier-config",
 	"eslintConfig": {
-		"extends": "iamnapo",
-		"rules": {
-			"import/no-unresolved": [
-				"error",
-				{
-					"ignore": [
-						"ava",
-						"got"
-					]
-				}
-			]
-		}
+		"extends": "iamnapo/typescript",
+		"ignorePatterns": [
+			"dist"
+		]
 	},
 	"ava": {
-		"verbose": true
+		"typescript": {
+			"rewritePaths": {
+				"/": "dist/"
+			},
+			"compile": false
+		}
 	},
 	"dependencies": {
-		"@fastify/compress": "^6.2.0",
+		"@fastify/compress": "^6.2.1",
 		"@fastify/cookie": "^8.3.0",
-		"@fastify/cors": "^8.2.0",
+		"@fastify/cors": "^8.2.1",
 		"@fastify/helmet": "^10.1.0",
-		"@sentry/node": "^7.37.2",
-		"cross-env": "^7.0.3",
+		"@sentry/node": "^7.50.0",
 		"dotenv": "^16.0.3",
-		"fastify": "^4.13.0",
+		"fastify": "^4.17.0",
 		"fastify-plugin": "^4.5.0",
-		"mercurius": "^12.0.1",
-		"pino-pretty": "^9.2.0"
+		"mercurius": "^13.0.0",
+		"pino-pretty": "^10.0.0"
 	},
 	"devDependencies": {
+		"@ava/typescript": "^4.0.0",
 		"@iamnapo/prettier-config": "^1.0.3",
+		"@iamnapo/tsconfig": "^3.0.0",
+		"@types/node": "^18.16.2",
 		"ava": "^5.2.0",
 		"c8": "^7.13.0",
-		"eslint": "^8.34.0",
-		"eslint-config-iamnapo": "^28.2.0",
-		"file-type": "^18.2.0",
-		"got": "^12.5.3",
-		"nodemon": "^2.0.20"
+		"cpy-cli": "^4.2.0",
+		"eslint": "^8.39.0",
+		"eslint-config-iamnapo": "^29.1.0",
+		"file-type": "^18.3.0",
+		"got": "^12.6.0",
+		"nodemon": "^2.0.22",
+		"typescript": "^5.0.4"
 	},
 	"engines": {
-		"node": ">=18"
+		"node": ">=20"
 	}
 }

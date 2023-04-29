@@ -2,7 +2,7 @@
 
 > [Not-so-much] opinionated server template, with all the important stuff<sup>1</sup>
 
-<sup>1</sup>: [fastify](https://www.fastify.io/), [ava](https://avajs.dev/), [graphql](https://graphql.org/), [eslint](https://eslint.org/), [Sentry](https://sentry.io/welcome/), [nodemon](https://nodemon.io/), [dotenv](https://github.com/motdotla/dotenv), code coverage and other bits and bobs.
+<sup>1</sup>: [TypeScript](https://www.typescriptlang.org), [Fastify](https://www.fastify.io/), [AVA](https://avajs.dev/), [GraphQL](https://graphql.org/), [ESLint](https://eslint.org/), [Sentry](https://sentry.io/welcome/), [nodemon](https://nodemon.io/), [dotenv](https://github.com/motdotla/dotenv), code coverage and other bits and bobs.
 
 [![build](https://badges.iamnapo.me/ci/iamnapo/nodejs-server-template)](https://github.com/iamnapo/nodejs-server-template/actions) [![style](https://badges.iamnapo.me/style)](https://iamnapo.me)
 
@@ -15,17 +15,18 @@
 
 ## Prerequisites
 
-- node >= 18
+- node >= 20
 
 ## Install
 
 ```sh
-npm i
+npm ci
 ```
 
 ## Usage
 
 ```sh
+npm run build
 npm start
 ```
 
