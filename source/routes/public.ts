@@ -1,9 +1,9 @@
-import type { FastifyPluginCallback, FastifyReply, FastifyRequest } from "fastify";
+import type { FastifyPluginCallback } from "fastify";
 
 const publicRoutes: FastifyPluginCallback = (fastify, _opts, done) => {
-	fastify.get("/", (_req: FastifyRequest, reply: FastifyReply) => reply.send({ message: "'sup bruh?" }));
+	fastify.get("/", (_req, reply) => reply.send({ message: "'sup bruh?" }));
 
-	fastify.get("/ping/", (_req: FastifyRequest, reply: FastifyReply) => reply.send({ message: "pong" }));
+	fastify.get("/ping/", (_req, reply) => reply.send({ message: "pong" }));
 
 	done();
 };

@@ -1,11 +1,11 @@
-import type { FastifyPluginCallback, FastifyReply, FastifyRequest } from "fastify";
+import type { FastifyPluginCallback } from "fastify";
 
 import publicRoutes from "./public.js";
 
 const routes: FastifyPluginCallback = (fastify, _opts, done) => {
 	void fastify.register(publicRoutes, { prefix: "/" });
 
-	fastify.setNotFoundHandler(async (_req: FastifyRequest, reply: FastifyReply) => {
+	fastify.setNotFoundHandler(async (_req, reply) => {
 		await reply.code(404).send({ message: "Page not found 😞" });
 	});
 
