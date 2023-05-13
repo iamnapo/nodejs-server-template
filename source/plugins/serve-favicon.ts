@@ -14,7 +14,7 @@ const plugin: FastifyPluginCallback<{ path: URL }> = (fastify, opts, done) => {
 		handler: async (_req, reply) => {
 			iconBuf ||= await readFile(opts.path);
 
-			return reply
+			await reply
 				.headers({
 					"Cache-Control": "public, max-age=31536000",
 					ETag: `${iconBuf.length.toString(16)}-${createHash("sha1").update(iconBuf.toString("binary"), "utf8").digest("base64").slice(0, 27)}`,

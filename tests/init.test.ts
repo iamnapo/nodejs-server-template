@@ -20,8 +20,8 @@ test.before(async (t) => {
 	});
 });
 
-test.after.always((t) => {
-	void t.context.server.close();
+test.after.always(async (t) => {
+	await t.context.server.close();
 });
 
 test("GET /favicon.ico returns correct response and status code", async (t) => {
@@ -35,6 +35,26 @@ test("GET /ping/ returns correct response and status code", async (t) => {
 	const { body, statusCode } = await t.context.got<{ message: string }>("ping");
 	t.is(body.message, "pong");
 	t.is(statusCode, 200);
+});
+
+test("GET /ping-pong returns correct response and status code for valid payload", async (t) => {
+	const { body, statusCode } = await t.context.got.post<{ message: string }>("ping-pong", {
+		json: { message: "ping" },
+	});
+	t.is(body.message, "pong");
+	t.is(statusCode, 200);
+});
+
+test("GET /ping-pong returns correct response and status code for invalid payload", async (t) => {
+	const { body, statusCode } = await t.context.got.post<{ message: string; details: { code: string; message: string }[] }>("ping-pong", {
+		json: { message: "invalid" },
+	});
+	t.is(body.message, "Invalid payload");
+	t.like(body.details[0], {
+		code: "invalid_enum_value",
+		message: "Invalid enum value. Expected 'ping' | 'pong', received 'invalid'",
+	});
+	t.is(statusCode, 400);
 });
 
 test("GET /whatever/ returns 404", async (t) => {
