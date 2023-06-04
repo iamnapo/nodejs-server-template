@@ -3,7 +3,7 @@ import "dotenv/config";
 import anyTest, { type TestFn } from "ava";
 import got, { type Got } from "got";
 import { fileTypeFromBuffer } from "file-type";
-import { type FastifyInstance } from "fastify";
+import type { FastifyInstance } from "fastify";
 
 import app from "../source/app.js";
 

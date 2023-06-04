@@ -1,6 +1,6 @@
 import { readFile } from "node:fs/promises";
 import { createHash } from "node:crypto";
-import { URL } from "node:url";
+import type { URL } from "node:url";
 
 import fp from "fastify-plugin";
 import type { FastifyPluginCallback } from "fastify";
