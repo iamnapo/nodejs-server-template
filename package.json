@@ -36,7 +36,7 @@
 		"dev": "tsc --watch & nodemon dist/source/server.js",
 		"lint": "eslint . --ext .ts --cache",
 		"start": "NODE_ENV=production node dist/source/server.js",
-		"test": "npm run lint && npm run build && c8 ava --no-worker-threads"
+		"test": "npm run lint && npm run build && c8 ava"
 	},
 	"nodemonConfig": {
 		"env": {
@@ -60,36 +60,38 @@
 				"/": "dist/"
 			},
 			"compile": false
-		}
+		},
+		"workerThreads": false
 	},
 	"dependencies": {
 		"@fastify/compress": "^6.5.0",
-		"@fastify/cookie": "^9.1.0",
-		"@fastify/cors": "^8.4.1",
+		"@fastify/cookie": "^9.2.0",
+		"@fastify/cors": "^8.5.0",
 		"@fastify/helmet": "^11.1.1",
-		"@sentry/node": "^7.77.0",
+		"@sentry/node": "^7.90.0",
 		"dotenv": "^16.3.1",
-		"fastify": "^4.24.3",
+		"fastify": "^4.25.1",
 		"fastify-plugin": "^4.5.1",
-		"mercurius": "^13.2.2",
-		"pino-pretty": "^10.2.3",
+		"mercurius": "^13.3.2",
+		"pino-pretty": "^10.3.0",
 		"zod": "^3.22.4",
 		"zod-validation-error": "^2.1.0"
 	},
 	"devDependencies": {
 		"@ava/typescript": "^4.1.0",
 		"@iamnapo/prettier-config": "^1.0.3",
-		"@iamnapo/tsconfig": "^4.0.0",
-		"@types/node": "^20.8.10",
-		"ava": "^5.3.1",
+		"@iamnapo/tsconfig": "^5.0.0",
+		"@types/node": "^20.10.5",
+		"ava": "^6.0.1",
 		"c8": "^8.0.1",
 		"cpy-cli": "^5.0.0",
-		"eslint": "^8.52.0",
-		"eslint-config-iamnapo": "^33.0.0",
-		"file-type": "^18.6.0",
-		"got": "^13.0.0",
-		"nodemon": "^3.0.1",
-		"typescript": "^5.2.2"
+		"eslint": "^8.56.0",
+		"eslint-config-iamnapo": "^33.1.0",
+		"file-type": "^18.7.0",
+		"got": "^14.0.0",
+		"nodemon": "^3.0.2",
+		"test-listen": "^1.1.0",
+		"typescript": "^5.3.3"
 	},
 	"engines": {
 		"node": ">=20"
