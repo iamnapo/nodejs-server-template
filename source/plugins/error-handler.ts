@@ -1,5 +1,5 @@
 import type { FastifyPluginCallback } from "fastify";
-import Sentry from "@sentry/node";
+import * as Sentry from "@sentry/node";
 import fp from "fastify-plugin";
 
 const plugin: FastifyPluginCallback = (fastify, _opts, done) => {

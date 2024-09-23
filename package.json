@@ -30,12 +30,12 @@
 		"url": "https://iamnapo.me"
 	},
 	"type": "module",
-	"exports": "./dist/source/server.js",
+	"exports": "./distribution/source/server.js",
 	"scripts": {
-		"build": "tsc && cpy source '!**/*.ts' dist",
-		"dev": "tsc --watch & nodemon dist/source/server.js",
+		"build": "tsc && cpy source '!**/*.ts' distribution",
+		"dev": "tsc --watch & nodemon distribution/source/server.js",
 		"lint": "eslint . --ext .ts --cache",
-		"start": "NODE_ENV=production node dist/source/server.js",
+		"start": "NODE_ENV=production node distribution/source/server.js",
 		"test": "npm run lint && npm run build && c8 ava"
 	},
 	"nodemonConfig": {
@@ -44,54 +44,54 @@
 			"NODE_OPTIONS": "--trace-warnings"
 		},
 		"watch": [
-			"dist"
+			"distribution"
 		]
 	},
 	"prettier": "@iamnapo/prettier-config",
 	"eslintConfig": {
 		"extends": "iamnapo/typescript",
 		"ignorePatterns": [
-			"dist"
+			"distribution"
 		]
 	},
 	"ava": {
 		"typescript": {
 			"rewritePaths": {
-				"/": "dist/"
+				"/": "distribution/"
 			},
 			"compile": false
 		},
 		"workerThreads": false
 	},
 	"dependencies": {
-		"@fastify/compress": "^6.5.0",
-		"@fastify/cookie": "^9.2.0",
-		"@fastify/cors": "^8.5.0",
-		"@fastify/helmet": "^11.1.1",
-		"@sentry/node": "^7.90.0",
-		"dotenv": "^16.3.1",
-		"fastify": "^4.25.1",
-		"fastify-plugin": "^4.5.1",
-		"mercurius": "^13.3.2",
-		"pino-pretty": "^10.3.0",
-		"zod": "^3.22.4",
-		"zod-validation-error": "^2.1.0"
+		"@fastify/compress": "^8.0.1",
+		"@fastify/cookie": "^10.0.1",
+		"@fastify/cors": "^10.0.1",
+		"@fastify/helmet": "^12.0.1",
+		"@sentry/node": "^8.31.0",
+		"dotenv": "^16.4.5",
+		"fastify": "^5.0.0",
+		"fastify-plugin": "^5.0.1",
+		"mercurius": "^15.0.0",
+		"pino-pretty": "^11.2.2",
+		"zod": "^3.23.8",
+		"zod-validation-error": "^3.4.0"
 	},
 	"devDependencies": {
-		"@ava/typescript": "^4.1.0",
+		"@ava/typescript": "^5.0.0",
 		"@iamnapo/prettier-config": "^1.0.3",
-		"@iamnapo/tsconfig": "^5.0.0",
-		"@types/node": "^20.10.5",
-		"ava": "^6.0.1",
-		"c8": "^8.0.1",
+		"@iamnapo/tsconfig": "^6.0.0",
+		"@types/node": "^22.6.1",
+		"ava": "^6.1.3",
+		"c8": "^10.1.2",
 		"cpy-cli": "^5.0.0",
-		"eslint": "^8.56.0",
-		"eslint-config-iamnapo": "^33.1.0",
-		"file-type": "^18.7.0",
-		"got": "^14.0.0",
-		"nodemon": "^3.0.2",
+		"eslint": "^8.57.0",
+		"eslint-config-iamnapo": "^36.0.0",
+		"file-type": "^19.5.0",
+		"got": "^14.4.2",
+		"nodemon": "^3.1.7",
 		"test-listen": "^1.1.0",
-		"typescript": "^5.3.3"
+		"typescript": "^5.6.2"
 	},
 	"engines": {
 		"node": ">=20"

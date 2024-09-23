@@ -3,7 +3,7 @@ import "dotenv/config";
 import Fastify from "fastify";
 import compress from "@fastify/compress";
 import cors from "@fastify/cors";
-import Sentry from "@sentry/node";
+import * as Sentry from "@sentry/node";
 import helmet from "@fastify/helmet";
 import cookie from "@fastify/cookie";
 

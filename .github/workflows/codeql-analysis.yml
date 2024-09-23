@@ -6,7 +6,7 @@ on:
     - cron: "0 9 * * 1" # every Monday morning
 
 jobs:
-  CodeQL-Build:
+  analyze:
     runs-on: ubuntu-latest
 
     steps:
@@ -14,9 +14,9 @@ jobs:
         uses: actions/checkout@v4
 
       - name: 📚 Initialize CodeQL
-        uses: github/codeql-action/init@v2
+        uses: github/codeql-action/init@v3
         with:
           languages: typescript
 
       - name: ℹ️ Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v2
+        uses: github/codeql-action/analyze@v3
