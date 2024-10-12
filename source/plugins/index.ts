@@ -6,9 +6,9 @@ import serveFavicon from "./serve-favicon.js";
 import graphql from "./graphql.js";
 
 const plugins: FastifyPluginCallback = (fastify, _opts, done) => {
-	void fastify.register(errorHandler);
-	void fastify.register(serveFavicon, { path: new URL("../assets/images/favicon.ico", import.meta.url) });
-	void fastify.register(graphql);
+	fastify.register(errorHandler);
+	fastify.register(serveFavicon, { path: new URL("../assets/images/favicon.ico", import.meta.url) });
+	fastify.register(graphql);
 
 	done();
 };

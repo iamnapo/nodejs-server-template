@@ -15,13 +15,13 @@ Sentry.init({ enabled: process.env.NODE_ENV === "production" });
 const app = (opts = {}) => {
 	const fastify = Fastify({ ...opts, ignoreTrailingSlash: true });
 
-	void fastify.register(helmet, { contentSecurityPolicy: process.env.NODE_ENV === "production" });
-	void fastify.register(cookie);
-	void fastify.register(cors, { credentials: true, origin: true });
-	void fastify.register(compress);
+	fastify.register(helmet, { contentSecurityPolicy: process.env.NODE_ENV === "production" });
+	fastify.register(cookie);
+	fastify.register(cors, { credentials: true, origin: true });
+	fastify.register(compress);
 
-	void fastify.register(plugins);
-	void fastify.register(routes, { prefix: "/" });
+	fastify.register(plugins);
+	fastify.register(routes, { prefix: "/" });
 
 	return fastify;
 };
