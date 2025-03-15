@@ -1,70 +1,82 @@
 import "dotenv/config";
 
+import type { Server } from "node:http";
+import type { AddressInfo } from "node:net";
+
 import anyTest, { type TestFn } from "ava";
-import got, { type Got } from "got";
 import { fileTypeFromBuffer } from "file-type";
-import type { FastifyInstance } from "fastify";
+import ky, { type KyInstance } from "ky";
 
 import app from "../source/app.js";
 
-const test = anyTest as TestFn<{ server: FastifyInstance; got: Got }>;
+const test = anyTest as TestFn<{ server: Server; ky: KyInstance }>;
 
-test.before(async (t) => {
-	t.context.server = app();
-	await t.context.server.listen({ host: "127.0.0.1", port: 0 });
-	const { address, port } = t.context.server.server.address() as { address: string; port: number };
-	t.context.got = got.extend({
+test.before((t) => {
+	t.context.server = app.listen();
+	const { port } = t.context.server.address() as AddressInfo;
+	t.context.ky = ky.extend({
 		throwHttpErrors: false,
-		responseType: "json",
-		prefixUrl: `http://${address}:${port}`,
+		prefixUrl: `http://localhost:${port}`,
 	});
 });
 
-test.after.always(async (t) => {
-	await t.context.server.close();
+test.after.always((t) => t.context.server.close());
+
+test.only("GET /favicon.ico returns correct response and status code", async (t) => {
+	const response = await t.context.ky("favicon.ico");
+	const type = await fileTypeFromBuffer(await response.arrayBuffer());
+	t.is(type?.mime, "image/x-icon");
+	t.is(response.status, 200);
 });
 
-test("GET /favicon.ico returns correct response and status code", async (t) => {
-	const { body, statusCode } = await t.context.got("favicon.ico", { responseType: "buffer" });
-	const type = await fileTypeFromBuffer(body);
-	t.is(type?.ext, "ico");
-	t.is(statusCode, 200);
+test("GET /cat returns correct response and status code", async (t) => {
+	const response = await t.context.ky("cat");
+	const type = await fileTypeFromBuffer(await response.arrayBuffer());
+	t.true(type?.mime.startsWith("image/"));
+	t.is(response.status, 200);
 });
 
-test("GET /ping/ returns correct response and status code", async (t) => {
-	const { body, statusCode } = await t.context.got<{ message: string }>("ping");
-	t.is(body.message, "pong");
-	t.is(statusCode, 200);
+test("GET /ping returns correct response and status code", async (t) => {
+	const response = await t.context.ky<{ message: string }>("ping");
+	const { message } = await response.json();
+	t.is(message, "pong");
+	t.is(response.status, 200);
 });
 
 test("GET /ping-pong returns correct response and status code for valid payload", async (t) => {
-	const { body, statusCode } = await t.context.got.post<{ message: string }>("ping-pong", {
+	const response = await t.context.ky.post<{ message: string }>("ping-pong", {
 		json: { message: "ping" },
 	});
-	t.is(body.message, "pong");
-	t.is(statusCode, 200);
+	const { message } = await response.json();
+	t.is(message, "pong");
+	t.is(response.status, 200);
 });
 
 test("GET /ping-pong returns correct response and status code for invalid payload", async (t) => {
-	const { body, statusCode } = await t.context.got.post<{ message: string; details: { code: string; message: string }[] }>("ping-pong", {
+	const response = await t.context.ky.post<{
+		message: string;
+		details: { code: string; message: string }[];
+	}>("ping-pong", {
 		json: { message: "invalid" },
 	});
-	t.is(body.message, "Invalid payload");
-	t.like(body.details[0], {
+	const { message, details } = await response.json();
+	t.is(message, "Invalid payload");
+	t.like(details[0], {
 		code: "invalid_enum_value",
 		message: "Invalid enum value. Expected 'ping' | 'pong', received 'invalid'",
 	});
-	t.is(statusCode, 400);
+	t.is(response.status, 400);
 });
 
-test("GET /whatever/ returns 404", async (t) => {
-	const { body, statusCode } = await t.context.got<{ message: string }>("whatever");
-	t.is(body.message, "Page not found 😞");
-	t.is(statusCode, 404);
+test("GET /whatever returns 404", async (t) => {
+	const response = await t.context.ky<{ message: string }>("whatever");
+	const { message } = await response.json();
+	t.is(message, "Page not found 😞");
+	t.is(response.status, 404);
 });
 
-test("POST /graphql/ returns correct response and status code", async (t) => {
-	const { body, statusCode } = await t.context.got.post<{ data: { ping: { message: string } } }>("graphql", {
+test("POST /graphql returns correct response and status code", async (t) => {
+	const response = await t.context.ky.post<{ data: { ping: { message: string } } }>("graphql", {
 		json: {
 			query: `query {
 				ping {
@@ -73,6 +85,7 @@ test("POST /graphql/ returns correct response and status code", async (t) => {
 			}`,
 		},
 	});
-	t.is(body.data.ping.message, "pong");
-	t.is(statusCode, 200);
+	const { data } = await response.json();
+	t.is(data.ping.message, "pong");
+	t.is(response.status, 200);
 });

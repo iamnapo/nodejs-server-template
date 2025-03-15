@@ -1,13 +1,26 @@
+import { env } from "node:process";
+import cluster from "node:cluster";
+import { availableParallelism } from "node:os";
+
+import chalk from "chalk";
+
 import app from "./app.js";
 
-void app({
-	logger: {
-		transport:
-			process.env.NODE_ENV === "development"
-				? { target: "pino-pretty", options: { translateTime: "SYS:HH:MM:ss", ignore: "pid,hostname" } }
-				: undefined,
-	},
-}).listen({
-	port: Number(process.env.PORT ?? 3000),
-	host: process.env.HOST ?? "localhost",
-});
+const numWorkers = availableParallelism();
+const { NODE_ENV, PORT = 4000 } = env;
+
+if (NODE_ENV === "production" && cluster.isPrimary) {
+	for (let i = 0; i < numWorkers; i++) cluster.fork();
+
+	let onlineWorkers = 0;
+	cluster.on("online", () => {
+		onlineWorkers += 1;
+		if (onlineWorkers === numWorkers) {
+			console.log(chalk.bold.cyan(`>>> Live at http://localhost:${PORT} with ${numWorkers} worker processes.`));
+		}
+	});
+
+	cluster.on("exit", () => cluster.fork());
+} else {
+	app.listen(PORT, () => NODE_ENV === "development" && console.log(chalk.bold.cyan(`>>> Live at http://localhost:${PORT}`)));
+}

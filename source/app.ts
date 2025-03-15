@@ -1,29 +1,47 @@
-import "dotenv/config";
+import "dotenv/config.js";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+import { env } from "node:process";
 
-import Fastify from "fastify";
-import compress from "@fastify/compress";
-import cors from "@fastify/cors";
+import express from "express";
+import morgan from "morgan";
+import compression from "compression";
+import favicon from "serve-favicon";
+import cors from "cors";
 import * as Sentry from "@sentry/node";
-import helmet from "@fastify/helmet";
-import cookie from "@fastify/cookie";
+import helmet from "helmet";
+import cookieParser from "cookie-parser";
 
 import routes from "./routes/index.js";
-import plugins from "./plugins/index.js";
+import { errorHandler } from "./middleware/index.js";
 
 Sentry.init({ enabled: process.env.NODE_ENV === "production" });
 
-const app = (opts = {}) => {
-	const fastify = Fastify({ ...opts, ignoreTrailingSlash: true });
+const { NODE_ENV } = env;
 
-	fastify.register(helmet, { contentSecurityPolicy: process.env.NODE_ENV === "production" });
-	fastify.register(cookie);
-	fastify.register(cors, { credentials: true, origin: true });
-	fastify.register(compress);
+const app = express();
 
-	fastify.register(plugins);
-	fastify.register(routes, { prefix: "/" });
+app.use(helmet({ contentSecurityPolicy: process.env.NODE_ENV === "production" }));
+app.disable("x-powered-by");
+app.use(
+	morgan(NODE_ENV === "development" ? "dev" : "short", {
+		skip: (req) => NODE_ENV === "test" || req.originalUrl === "/favicon.ico" || req.method === "OPTIONS",
+	}),
+);
+app.use(cookieParser());
+app.use(cors({ credentials: true, origin: true }));
+app.use(compression());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true, limit: "1mb" }));
+app.use(favicon(path.join(path.dirname(fileURLToPath(import.meta.url)), "assets", "images", "favicon.ico")));
 
-	return fastify;
-};
+app.use(routes);
+
+app.all("/{*splat}", (_, res) => {
+	res.status(404).json({ message: "Page not found 😞" });
+});
+
+Sentry.setupExpressErrorHandler(app);
+app.use(errorHandler);
 
 export default app;
