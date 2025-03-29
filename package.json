@@ -13,7 +13,7 @@
 		"express",
 		"graphql",
 		"sentry",
-		"nodemon",
+		"tsx",
 		"ava",
 		"dotenv",
 		"zod",
