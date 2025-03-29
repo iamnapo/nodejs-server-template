@@ -19,7 +19,7 @@ Sentry.init({ enabled: process.env.NODE_ENV === "production" });
 
 const { NODE_ENV } = env;
 
-const app = express();
+const app: express.Application = express();
 
 app.use(helmet({ contentSecurityPolicy: process.env.NODE_ENV === "production" }));
 app.disable("x-powered-by");

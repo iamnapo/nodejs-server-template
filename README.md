@@ -20,24 +20,24 @@
 ## Install
 
 ```sh
-npm ci
+pnpm i
 ```
 
 ## Usage
 
 ```sh
-npm run build
-npm start
+pnpm build
+pnpm start
 ```
 
 ## Run tests
 
 ```sh
-npm test
+pnpm test
 ```
 
 ## Development
 
 ```sh
-npm run dev
+pnpm dev
 ```

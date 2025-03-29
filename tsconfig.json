@@ -1,4 +1,4 @@
 {
 	"extends": "@iamnapo/tsconfig",
-	"include": ["source", "tests", "global.d.ts"],
+	"include": ["source", "tests", "global.d.ts"]
 }

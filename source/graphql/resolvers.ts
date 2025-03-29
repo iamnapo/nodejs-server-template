@@ -1,5 +1,3 @@
-const resolvers = {
-	ping: () => ({ message: "pong" }),
-};
+const resolvers = { ping: () => ({ message: "pong" }) };
 
 export default resolvers;
