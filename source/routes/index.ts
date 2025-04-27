@@ -1,9 +1,9 @@
-import express from "express";
+import { Router } from "express";
 
 import graphqlRoutes from "./graphql.js";
 import publicRoutes from "./public.js";
 
-const router: express.Router = express.Router({ mergeParams: true });
+const router: Router = Router({ mergeParams: true });
 
 router.use("/", publicRoutes);
 router.use("/graphql/", graphqlRoutes);

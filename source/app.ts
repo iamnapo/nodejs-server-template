@@ -1,19 +1,20 @@
-import "dotenv/config.js";
+import "dotenv/config";
+
 import path from "node:path";
-import { fileURLToPath } from "node:url";
 import { env } from "node:process";
+import { fileURLToPath } from "node:url";
 
-import express from "express";
-import morgan from "morgan";
-import compression from "compression";
-import favicon from "serve-favicon";
-import cors from "cors";
 import * as Sentry from "@sentry/node";
-import helmet from "helmet";
+import compression from "compression";
 import cookieParser from "cookie-parser";
+import cors from "cors";
+import express, { json, urlencoded } from "express";
+import helmet from "helmet";
+import morgan from "morgan";
+import favicon from "serve-favicon";
 
-import routes from "./routes/index.js";
 import { errorHandler } from "./middleware/index.js";
+import routes from "./routes/index.js";
 
 Sentry.init({ enabled: process.env.NODE_ENV === "production" });
 
@@ -31,8 +32,8 @@ app.use(
 app.use(cookieParser());
 app.use(cors({ credentials: true, origin: true }));
 app.use(compression());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true, limit: "1mb" }));
+app.use(json());
+app.use(urlencoded({ extended: true, limit: "1mb" }));
 app.use(favicon(path.join(path.dirname(fileURLToPath(import.meta.url)), "assets", "images", "favicon.ico")));
 
 app.use(routes);

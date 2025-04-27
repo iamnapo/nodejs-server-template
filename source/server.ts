@@ -1,6 +1,6 @@
-import { env } from "node:process";
 import cluster from "node:cluster";
 import { availableParallelism } from "node:os";
+import { env } from "node:process";
 
 import chalk from "chalk";
 

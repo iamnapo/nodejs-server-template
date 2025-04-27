@@ -35,7 +35,7 @@
 	"scripts": {
 		"build": "tsc && cpy source '!**/*.ts' distribution",
 		"dev": "NODE_ENV=development NODE_OPTIONS='--trace-warnings' tsx watch ./source/server.ts",
-		"lint": "eslint . --cache",
+		"lint": "eslint --cache",
 		"start": "NODE_ENV=production node distribution/source/server.js",
 		"test": "pnpm lint && tsc --noEmit && c8 ava"
 	},
@@ -52,22 +52,22 @@
 		]
 	},
 	"dependencies": {
-		"@sentry/node": "^9.10.1",
+		"@sentry/node": "^9.14.0",
 		"chalk": "^5.4.1",
 		"compression": "^1.8.0",
 		"cookie-parser": "^1.4.7",
 		"cors": "^2.8.5",
-		"dotenv": "^16.4.7",
-		"express": "^5.0.1",
-		"graphql": "^16.10.0",
+		"dotenv": "^16.5.0",
+		"express": "^5.1.0",
+		"graphql": "^16.11.0",
 		"graphql-http": "^1.22.4",
 		"helmet": "^8.1.0",
-		"ky": "^1.7.5",
+		"ky": "^1.8.1",
 		"morgan": "^1.10.0",
-		"ruru": "^2.0.0-beta.19",
+		"ruru": "^2.0.0-beta.22",
 		"serve-favicon": "^2.5.0",
 		"tsx": "^4.19.3",
-		"zod": "^3.24.2",
+		"zod": "^3.24.3",
 		"zod-validation-error": "^3.4.0"
 	},
 	"devDependencies": {
@@ -78,18 +78,18 @@
 		"@types/cors": "^2.8.17",
 		"@types/express": "^5.0.1",
 		"@types/morgan": "^1.9.9",
-		"@types/node": "^22.13.14",
+		"@types/node": "^22.15.2",
 		"@types/serve-favicon": "^2.5.7",
 		"ava": "^6.2.0",
 		"c8": "^10.1.3",
 		"cpy-cli": "^5.0.0",
-		"eslint": "^9.23.0",
-		"eslint-config-iamnapo": "^38.0.0",
-		"file-type": "^20.4.1",
-		"typescript": "^5.8.2"
+		"eslint": "^9.25.1",
+		"eslint-config-iamnapo": "^39.0.0",
+		"file-type": "^20.5.0",
+		"typescript": "^5.8.3"
 	},
 	"engines": {
 		"node": ">=22"
 	},
-	"packageManager": "pnpm@10.7.0+sha512.6b865ad4b62a1d9842b61d674a393903b871d9244954f652b8842c2b553c72176b278f64c463e52d40fff8aba385c235c8c9ecf5cc7de4fd78b8bb6d49633ab6"
+	"packageManager": "pnpm@10.9.0+sha512.0486e394640d3c1fb3c9d43d49cf92879ff74f8516959c235308f5a8f62e2e19528a65cdc2a3058f587cde71eba3d5b56327c8c33a97e4c4051ca48a10ca2d5f"
 }

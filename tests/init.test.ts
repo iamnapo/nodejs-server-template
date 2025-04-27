@@ -1,13 +1,13 @@
 import "dotenv/config";
 
-import type { Server } from "node:http";
-import type { AddressInfo } from "node:net";
-
 import anyTest, { type TestFn } from "ava";
 import { fileTypeFromBuffer } from "file-type";
 import ky, { type KyInstance } from "ky";
 
 import app from "../source/app.js";
+
+import type { Server } from "node:http";
+import type { AddressInfo } from "node:net";
 
 const test = anyTest as TestFn<{ server: Server; ky: KyInstance }>;
 

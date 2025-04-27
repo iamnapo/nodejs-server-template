@@ -1,9 +1,9 @@
-import express from "express";
+import { Router } from "express";
 import ky from "ky";
 import { z } from "zod";
 import { fromZodError } from "zod-validation-error";
 
-const router: express.Router = express.Router({ mergeParams: true });
+const router: Router = Router({ mergeParams: true });
 
 router.get("/", (_, res) => {
 	res.send({ message: "'sup bruh?" });
