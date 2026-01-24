@@ -1,33 +1,31 @@
 import { Router } from "express";
-import ky from "ky";
-import { z } from "zod";
-import { fromZodError } from "zod-validation-error";
+import { got } from "got";
+import { flattenError } from "zod";
 
-const router: Router = Router({ mergeParams: true });
+import { postPingPongSchema } from "#schemas/public.ts";
 
-router.get("/", (_, res) => {
-	res.send({ message: "'sup bruh?" });
-});
+const router = Router({ mergeParams: true });
+
+router.get("/", (_, res) => res.json({ message: "'sup bruh?" }));
 
 router.get("/cat/", async (_, res) => {
-	const [{ url }] = await ky<[{ url: string }]>("https://api.thecatapi.com/v1/images/search").json();
-	const cat = await ky(url).arrayBuffer();
-	res.set("Content-Type", "image/jpeg").send(Buffer.from(cat));
+	const [{ url }] = await got("https://api.thecatapi.com/v1/images/search").json<[{ url: string }]>();
+	const cat = await got(url).buffer();
+	return res.set("Content-Type", "image/jpeg").send(cat);
 });
 
-router.get("/ping/", (_, res) => {
-	res.send({ message: "pong" });
-});
+router.get("/ping/", (_, res) => res.json({ message: "pong" }));
 
 router.post("/ping-pong/", async (req, res) => {
-	const inputSchema = z.object({ message: z.enum(["ping", "pong"]) });
-	const payload = await inputSchema.spa(req.body);
-	if (payload.success) {
-		const { message } = payload.data;
-		res.send({ message: message === "ping" ? "pong" : "ping" });
-	} else {
-		res.status(400).send({ message: "Invalid payload", details: fromZodError(payload.error).details });
+	const parsedSchema = await postPingPongSchema.spa(req.body);
+
+	if (!parsedSchema.success) {
+		return res.status(400).json({ message: "Invalid payload", details: flattenError(parsedSchema.error) });
 	}
+
+	const { message } = parsedSchema.data;
+
+	return res.json({ message: message === "ping" ? "pong" : "ping" });
 });
 
 export default router;

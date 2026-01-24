@@ -1,10 +1,14 @@
+import "dotenv/config";
+
+import "#config/sentry.ts";
+
 import cluster from "node:cluster";
 import { availableParallelism } from "node:os";
 import { env } from "node:process";
 
 import chalk from "chalk";
 
-import app from "./app.js";
+import app from "./app.ts";
 
 const numWorkers = availableParallelism();
 const { NODE_ENV, PORT = 4000 } = env;
@@ -22,5 +26,9 @@ if (NODE_ENV === "production" && cluster.isPrimary) {
 
 	cluster.on("exit", () => cluster.fork());
 } else {
-	app.listen(PORT, () => NODE_ENV === "development" && console.log(chalk.bold.cyan(`>>> Live at http://localhost:${PORT}`)));
+	app.listen(PORT, (error) => {
+		if (error) throw error;
+
+		if (NODE_ENV !== "test") console.log(chalk.bold.cyan(`>>> Live at http://localhost:${PORT}`));
+	});
 }

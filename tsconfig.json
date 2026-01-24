@@ -1,4 +1,10 @@
 {
 	"extends": "@iamnapo/tsconfig",
+	"compilerOptions": {
+		"noEmit": true,
+		"declaration": false,
+		"allowImportingTsExtensions": true,
+		"rootDir": "."
+	},
 	"include": ["source", "tests", "global.d.ts"]
 }

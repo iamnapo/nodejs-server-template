@@ -1,71 +1,107 @@
 import "dotenv/config";
 
+import { createServer, type Server } from "node:http";
+
+import { listen } from "async-listen";
 import anyTest, { type TestFn } from "ava";
 import { fileTypeFromBuffer } from "file-type";
-import ky, { type KyInstance } from "ky";
+import { got, type Got } from "got";
+import nock from "nock";
 
-import app from "../source/app.js";
+import app from "../source/app.ts";
 
-import type { Server } from "node:http";
-import type { AddressInfo } from "node:net";
+import type * as z from "zod";
 
-const test = anyTest as TestFn<{ server: Server; ky: KyInstance }>;
+const test = anyTest as TestFn<{ server: Server; got: Got }>;
 
-test.before((t) => {
-	t.context.server = app.listen();
-	const { port } = t.context.server.address() as AddressInfo;
-	t.context.ky = ky.extend({ throwHttpErrors: false, prefixUrl: `http://localhost:${port}` });
+test.before(async (t) => {
+	const server = createServer(app);
+	const url = await listen(server);
+
+	t.context.server = server;
+	t.context.got = got.extend({ throwHttpErrors: false, responseType: "json", prefixUrl: String(url) });
 });
 
 test.after.always((t) => t.context.server.close());
 
-test.only("GET /favicon.ico returns correct response and status code", async (t) => {
-	const response = await t.context.ky("favicon.ico");
-	const type = await fileTypeFromBuffer(await response.arrayBuffer());
+test("GET /favicon.ico returns correct response and status code", async (t) => {
+	const { body, statusCode } = await t.context.got("favicon.ico", { responseType: "buffer" });
+	const type = await fileTypeFromBuffer(body);
 	t.is(type?.mime, "image/x-icon");
-	t.is(response.status, 200);
+	t.is(statusCode, 200);
 });
 
 test("GET /cat returns correct response and status code", async (t) => {
-	const response = await t.context.ky("cat");
-	const type = await fileTypeFromBuffer(await response.arrayBuffer());
+	nock("https://api.thecatapi.com")
+		.get("/v1/images/search")
+		.reply(200, [{ url: "https://cdn2.thecatapi.com/images/360.jpg" }]);
+
+	nock("https://cdn2.thecatapi.com")
+		.get("/images/360.jpg")
+		.reply(200, Buffer.from("R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7", "base64"), {
+			"Content-Type": "image/gif",
+		});
+	const { body, statusCode } = await t.context.got("cat", { responseType: "buffer" });
+	const type = await fileTypeFromBuffer(body);
 	t.true(type?.mime.startsWith("image/"));
-	t.is(response.status, 200);
+	t.is(statusCode, 200);
 });
 
 test("GET /ping returns correct response and status code", async (t) => {
-	const response = await t.context.ky<{ message: string }>("ping");
-	const { message } = await response.json();
+	const {
+		body: { message },
+		statusCode,
+	} = await t.context.got<{ message: string }>("ping");
 	t.is(message, "pong");
-	t.is(response.status, 200);
+	t.is(statusCode, 200);
 });
 
 test("GET /ping-pong returns correct response and status code for valid payload", async (t) => {
-	const response = await t.context.ky.post<{ message: string }>("ping-pong", { json: { message: "ping" } });
-	const { message } = await response.json();
+	const {
+		body: { message },
+		statusCode,
+	} = await t.context.got.post<{ message: string }>("ping-pong", { json: { message: "ping" } });
 	t.is(message, "pong");
-	t.is(response.status, 200);
+	t.is(statusCode, 200);
 });
 
 test("GET /ping-pong returns correct response and status code for invalid payload", async (t) => {
-	const response = await t.context.ky.post<{ message: string; details: { code: string; message: string }[] }>("ping-pong", {
-		json: { message: "invalid" },
-	});
-	const { message, details } = await response.json();
+	const {
+		body: { message, details },
+		statusCode,
+	} = await t.context.got.post<{ message: string; details: z.core.$ZodFlattenedError<{ message: string }> }>(
+		"ping-pong",
+		{
+			json: { message: "invalid" },
+		},
+	);
 	t.is(message, "Invalid payload");
-	t.like(details[0], { code: "invalid_enum_value", message: "Invalid enum value. Expected 'ping' | 'pong', received 'invalid'" });
-	t.is(response.status, 400);
+	t.like(details, {
+		fieldErrors: {
+			message: ["Invalid option: expected one of \"ping\"|\"pong\""],
+		},
+	});
+	t.is(statusCode, 400);
 });
 
 test("GET /whatever returns 404", async (t) => {
-	const response = await t.context.ky<{ message: string }>("whatever");
-	const { message } = await response.json();
+	const {
+		body: { message },
+		statusCode,
+	} = await t.context.got<{ message: string }>("whatever");
 	t.is(message, "Page not found 😞");
-	t.is(response.status, 404);
+	t.is(statusCode, 404);
 });
 
 test("POST /graphql returns correct response and status code", async (t) => {
-	const response = await t.context.ky.post<{ data: { ping: { message: string } } }>("graphql", {
+	const {
+		body: {
+			data: {
+				ping: { message },
+			},
+		},
+		statusCode,
+	} = await t.context.got.post<{ data: { ping: { message: string } } }>("graphql", {
 		json: {
 			query: `query {
 				ping {
@@ -74,7 +110,6 @@ test("POST /graphql returns correct response and status code", async (t) => {
 			}`,
 		},
 	});
-	const { data } = await response.json();
-	t.is(data.ping.message, "pong");
-	t.is(response.status, 200);
+	t.is(message, "pong");
+	t.is(statusCode, 200);
 });
